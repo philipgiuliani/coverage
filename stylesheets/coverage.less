@@ -5,4 +5,50 @@
 @import "ui-variables";
 
 .coverage {
+  // define the with of the columns
+  .col-title { width: 50% }
+  .col-progress { width: 20% }
+  .col-percent { width: 10% }
+  .col-lines { width: 10% }
+  .col-strengh { width: 10% }
+
+  .panel-heading {
+    padding: 10px 10px 10px 0;
+
+    > div {
+      float: left;
+      padding: 0 10px;
+    }
+  }
+
+  // make the tool panel content scrollable
+  .panel-body {
+    padding: 0;
+    max-height: 125px;
+    overflow-y: scroll;
+  }
+
+  // style the table
+  table {
+    width: 100%;
+
+    tbody {
+      tr {
+        background: @base-background-color;
+        border-bottom: 1px solid @tool-panel-background-color;
+
+        td {
+          padding: 7px 10px;
+        }
+      }
+    }
+  }
+
+  // progress bar styles
+  progress {
+    width: 100%;
+
+    &.red::-webkit-progress-value { background-color: @background-color-error }
+    &.orange::-webkit-progress-value { background-color: @background-color-warning }
+  }
 }
