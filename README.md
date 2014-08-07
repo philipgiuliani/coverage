@@ -1,5 +1,7 @@
-# coverage package
+# Test Coverage Package (WIP)
+Adds a overview of your current test coverage to Atom.
 
-A short description of your package.
+## Installing
+Use the Atom package manager, which can be found in the Settings view or run `apm install coverage` from the command line.
 
-![A screenshot of your spankin' package](https://f.cloud.github.com/assets/69169/2290250/c35d867a-a017-11e3-86be-cd7c5bf3ff9b.gif)
+*Screenshot is coming soon*

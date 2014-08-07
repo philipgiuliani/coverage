@@ -1,10 +1,10 @@
 {
-  "name": "coverage",
+  "name": "Coverage",
   "main": "./lib/coverage",
   "version": "0.0.0",
-  "description": "A short description of your package",
-  "activationEvents": ["coverage:toggle"],
-  "repository": "https://github.com/atom/coverage",
+  "description": "Shows the current test coverage of your project",
+  "activationEvents": ["coverage:toggle", "coverage:refresh"],
+  "repository": "https://github.com/philipgiuliani/coverage",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
