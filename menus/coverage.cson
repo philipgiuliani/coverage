@@ -1,15 +1,12 @@
 # See https://atom.io/docs/latest/creating-a-package#menus for more details
-'context-menu':
-  '.overlayer':
-      'Enable coverage': 'coverage:toggle'
-
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'coverage'
+      'label': 'Coverage'
       'submenu': [
-        { 'label': 'Toggle', 'command': 'coverage:toggle' }
+        { 'label': 'Toggle', 'command': 'coverage:toggle' },
+        { 'label': 'Refresh', 'command': 'coverage:refresh' }
       ]
     ]
   }
