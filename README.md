@@ -1,5 +1,5 @@
 # Test Coverage Package (WIP)
-Adds a overview of your current test coverage to Atom.
+Adds an overview of your current test coverage to Atom.
 
 ## Installing
 Use the Atom package manager, which can be found in the Settings view or run `apm install coverage` from the command line.
@@ -12,3 +12,8 @@ You will need to add the following formatter to the simplecov gem: [simplecov-js
 The `coverage.json` file is expected to find in `coverage/coverage.json`.
 
 **Screenshot is coming soon**
+
+## Support
+If you wish to support this package and help further its development, feel free to tip via Gittip.
+
+[![gittip](http://img.shields.io/gittip/philipgiuliani.svg?style=flat)](https://www.gittip.com/philipgiuliani/)
