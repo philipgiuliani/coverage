@@ -4,7 +4,7 @@ path = require 'path'
 module.exports =
 class CoveragePanelView extends View
   @content: ->
-    @div class: "coverage tool-panel panel-bottom", =>
+    @div class: "coverage-panel tool-panel panel-bottom", =>
       @div class: "panel-heading clearfix", =>
         @div class: "col-title", =>
           @b "Test Coverage"

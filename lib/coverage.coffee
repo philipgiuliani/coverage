@@ -2,15 +2,21 @@ fs = require 'fs'
 path = require 'path'
 
 CoveragePanelView = require './coverage-panel-view'
+CoverageStatusView = require './coverage-status-view'
 
 module.exports =
   coveragePanelView: null
+  coverageStatusView: null
 
   activate: (state) ->
     @coveragePanelView = new CoveragePanelView(state.coveragePanelViewState)
+    @coverageStatusView = new CoverageStatusView
+
+    atom.packages.once "activated", =>
+      atom.workspaceView.statusBar?.appendLeft @coverageStatusView
 
     atom.workspaceView.command "coverage:toggle", => @coveragePanelView.toggle()
-    atom.workspaceView.command "coverage:refresh", => @refreshReport()
+    atom.workspaceView.command "coverage:refresh", => @update()
 
     @update()
 
