@@ -1,11 +1,10 @@
 {$$, View} = require 'atom'
-fs = require 'fs'
 path = require 'path'
 
 module.exports =
-class CoverageView extends View
+class CoveragePanelView extends View
   @content: ->
-    @div class: "coverage tool-panel panel-bottom", =>
+    @div class: "coverage-panel tool-panel panel-bottom", =>
       @div class: "panel-heading clearfix", =>
         @div class: "col-title", =>
           @b "Test Coverage"
@@ -15,22 +14,7 @@ class CoverageView extends View
         @div class: "col-strengh", "Strength"
       @div outlet: "coverageContent", class: "panel-body"
 
-  initialize: (serializeState) ->
-    atom.workspaceView.command "coverage:toggle", => @toggle()
-    atom.workspaceView.command "coverage:refresh", => @refreshReport()
-
-  refreshReport: ->
-    coverageFile = path.resolve(atom.project.path, "coverage/coverage.json") if atom.project.path
-
-    if coverageFile && fs.existsSync(coverageFile)
-      fs.readFile coverageFile, "utf8", ((error, data) ->
-        return if error
-
-        data = JSON.parse(data)
-        @update data.metrics, data.files
-      ).bind(this)
-    else
-      console.info "TODO: Coverage file not found"
+  initialize: ->
 
   update: (project, files) ->
     self = this
@@ -42,7 +26,7 @@ class CoverageView extends View
             @td class: "col-title", =>
               @span class: "icon icon-file-directory", "Project"
             @td class: "col-progress", =>
-              @progress class: self.progressColor(project.covered_percent), max: 100, value: project.covered_percent
+              @progress class: self.coverageColor(project.covered_percent), max: 100, value: project.covered_percent
             @td class: "col-percent", "#{Number(project.covered_percent.toFixed(2))}%"
             @td class: "col-lines", "#{project.covered_lines} / #{project.total_lines}"
             @td class: "col-strengh", Number(project.covered_strength.toFixed(2))
@@ -55,12 +39,12 @@ class CoverageView extends View
             @td class: "col-title", =>
               @span class: "icon icon-file-text", "data-name": fileName, filePath
             @td class: "col-progress", =>
-              @progress class: self.progressColor(file.covered_percent), max: 100, value: file.covered_percent
+              @progress class: self.coverageColor(file.covered_percent), max: 100, value: file.covered_percent
             @td class: "col-percent", "#{Number(file.covered_percent.toFixed(2))}%"
             @td class: "col-lines", "#{file.covered_lines} / #{file.lines_of_code}"
             @td class: "col-strengh", Number(file.covered_strength.toFixed(2))
 
-  progressColor: (coverage) ->
+  coverageColor: (coverage) ->
     switch
       when coverage >= 90 then "green"
       when coverage >= 80 then "orange"
@@ -76,4 +60,3 @@ class CoverageView extends View
       @detach()
     else
       atom.workspaceView.prependToBottom(this)
-      @refreshReport()

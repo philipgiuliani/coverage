@@ -1,12 +1,9 @@
 {
-  "name": "Coverage",
+  "name": "coverage",
   "main": "./lib/coverage",
   "version": "0.1.0",
   "description": "Shows the current test coverage of your project",
-  "activationEvents": [
-    "coverage:toggle",
-    "coverage:refresh"
-  ],
+  "activationEvents": [],
   "repository": "https://github.com/philipgiuliani/coverage",
   "license": "MIT",
   "engines": {
