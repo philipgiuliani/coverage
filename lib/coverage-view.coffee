@@ -1,5 +1,4 @@
 {$$, View} = require 'atom'
-fs = require 'fs'
 path = require 'path'
 
 module.exports =
@@ -16,21 +15,6 @@ class CoverageView extends View
       @div outlet: "coverageContent", class: "panel-body"
 
   initialize: (serializeState) ->
-    atom.workspaceView.command "coverage:toggle", => @toggle()
-    atom.workspaceView.command "coverage:refresh", => @refreshReport()
-
-  refreshReport: ->
-    coverageFile = path.resolve(atom.project.path, "coverage/coverage.json") if atom.project.path
-
-    if coverageFile && fs.existsSync(coverageFile)
-      fs.readFile coverageFile, "utf8", ((error, data) ->
-        return if error
-
-        data = JSON.parse(data)
-        @update data.metrics, data.files
-      ).bind(this)
-    else
-      console.info "TODO: Coverage file not found"
 
   update: (project, files) ->
     self = this
@@ -76,4 +60,3 @@ class CoverageView extends View
       @detach()
     else
       atom.workspaceView.prependToBottom(this)
-      @refreshReport()
