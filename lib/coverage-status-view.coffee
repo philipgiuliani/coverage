@@ -7,4 +7,6 @@ class CoverageStatusView extends View
     @div class: 'inline-block', =>
       @span outlet: 'coverageStatus', class: 'coverage-status icon icon-pulse'
 
-  initialize: ->
+  initialize: (panelView) ->
+    this.on "click", =>
+      panelView.toggle()

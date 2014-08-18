@@ -14,7 +14,7 @@ class CoveragePanelView extends View
         @div class: "col-strengh", "Strength"
       @div outlet: "coverageContent", class: "panel-body"
 
-  initialize: (serializeState) ->
+  initialize: ->
 
   update: (project, files) ->
     self = this

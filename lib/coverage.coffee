@@ -9,8 +9,8 @@ module.exports =
   coverageStatusView: null
 
   activate: (state) ->
-    @coveragePanelView = new CoveragePanelView(state.coveragePanelViewState)
-    @coverageStatusView = new CoverageStatusView
+    @coveragePanelView = new CoveragePanelView
+    @coverageStatusView = new CoverageStatusView(@coveragePanelView)
 
     atom.packages.once "activated", =>
       atom.workspaceView.statusBar?.appendLeft @coverageStatusView
@@ -39,6 +39,3 @@ module.exports =
 
   deactivate: ->
     @coveragePanelView.destroy()
-
-  serialize: ->
-    coveragePanelViewState: @coveragePanelView.serialize()
