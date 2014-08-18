@@ -1,15 +1,15 @@
 fs = require 'fs'
 path = require 'path'
 
-CoverageView = require './coverage-view'
+CoveragePanelView = require './coverage-panel-view'
 
 module.exports =
-  coverageView: null
+  coveragePanelView: null
 
   activate: (state) ->
-    @coverageView = new CoverageView(state.coverageViewState)
+    @coveragePanelView = new CoveragePanelView(state.coveragePanelViewState)
 
-    atom.workspaceView.command "coverage:toggle", => @coverageView.toggle()
+    atom.workspaceView.command "coverage:toggle", => @coveragePanelView.toggle()
     atom.workspaceView.command "coverage:refresh", => @refreshReport()
 
     @update()
@@ -29,10 +29,10 @@ module.exports =
       console.info "TODO: Coverage file not found"
 
   updateView: (project, files) ->
-    @coverageView.update(project, files)
+    @coveragePanelView.update(project, files)
 
   deactivate: ->
-    @coverageView.destroy()
+    @coveragePanelView.destroy()
 
   serialize: ->
-    coverageViewState: @coverageView.serialize()
+    coveragePanelViewState: @coveragePanelView.serialize()

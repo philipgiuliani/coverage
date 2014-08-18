@@ -2,7 +2,7 @@
 path = require 'path'
 
 module.exports =
-class CoverageView extends View
+class CoveragePanelView extends View
   @content: ->
     @div class: "coverage tool-panel panel-bottom", =>
       @div class: "panel-heading clearfix", =>
