@@ -10,3 +10,13 @@ class CoverageStatusView extends View
   initialize: (panelView) ->
     this.on "click", =>
       panelView.toggle()
+
+  update: (coverage) ->
+    color = @coverageColor(coverage)
+    @coverageStatus.removeClass("green orange red").addClass(color)
+
+  coverageColor: (coverage) ->
+    switch
+      when coverage >= 90 then "green"
+      when coverage >= 80 then "orange"
+      else "red"

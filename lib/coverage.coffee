@@ -30,12 +30,16 @@ module.exports =
         data = JSON.parse(data)
 
         @updateView data.metrics, data.files
+        @updateStatusBar data.metrics
       ).bind(this)
     else
       console.info "TODO: Coverage file not found"
 
   updateView: (project, files) ->
-    @coveragePanelView.update(project, files)
+    @coveragePanelView.update project, files
+
+  updateStatusBar: (project) ->
+    @coverageStatusView.update Number(project.covered_percent.toFixed(2))
 
   deactivate: ->
     @coveragePanelView.destroy()
