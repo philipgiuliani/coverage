@@ -10,10 +10,11 @@ module.exports =
 
   activate: (state) ->
     @coveragePanelView = new CoveragePanelView
-    @coverageStatusView = new CoverageStatusView(@coveragePanelView)
 
     atom.packages.once "activated", =>
-      atom.workspaceView.statusBar?.appendLeft @coverageStatusView
+      if atom.workspaceView.statusBar
+        @coverageStatusView = new CoverageStatusView(@coveragePanelView)
+        atom.workspaceView.statusBar.appendLeft @coverageStatusView
 
     atom.workspaceView.command "coverage:toggle", => @coveragePanelView.toggle()
     atom.workspaceView.command "coverage:refresh", => @update()
@@ -39,7 +40,7 @@ module.exports =
     @coveragePanelView.update project, files
 
   updateStatusBar: (project) ->
-    @coverageStatusView.update Number(project.covered_percent.toFixed(2))
+    @coverageStatusView?.update Number(project.covered_percent.toFixed(2))
 
   deactivate: ->
     @coveragePanelView.destroy()
