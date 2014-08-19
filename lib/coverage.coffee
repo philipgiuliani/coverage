@@ -1,4 +1,4 @@
-fs = require 'fs'
+fs = require 'fs-plus'
 path = require 'path'
 
 CoveragePanelView = require './coverage-panel-view'
@@ -23,7 +23,10 @@ module.exports =
     atom.workspaceView.command "coverage:toggle", => @coveragePanelView.toggle()
     atom.workspaceView.command "coverage:refresh", => @update()
 
+    @initializePathWatcher() if atom.config.get "coverage.refreshOnFileChange"
     @update()
+
+  initializePathWatcher: ->
 
   update: ->
     if @coverageFile && fs.existsSync(@coverageFile)
