@@ -7,10 +7,12 @@ CoverageStatusView = require './coverage-status-view'
 module.exports =
   coveragePanelView: null
   coverageStatusView: null
+  coverageFile: null
   configDefaults:
     refreshOnFileChange: true
 
   activate: (state) ->
+    @coverageFile = path.resolve(atom.project.path, "coverage/coverage.json") if atom.project.path
     @coveragePanelView = new CoveragePanelView
 
     atom.packages.once "activated", =>
@@ -24,10 +26,8 @@ module.exports =
     @update()
 
   update: ->
-    coverageFile = path.resolve(atom.project.path, "coverage/coverage.json") if atom.project.path
-
-    if coverageFile && fs.existsSync(coverageFile)
-      fs.readFile coverageFile, "utf8", ((error, data) ->
+    if @coverageFile && fs.existsSync(@coverageFile)
+      fs.readFile @coverageFile, "utf8", ((error, data) ->
         return if error
 
         data = JSON.parse(data)
@@ -46,7 +46,9 @@ module.exports =
 
   deactivate: ->
     @coveragePanelView?.destroy()
-    @coverageStatusView?.destroy()
-
     @coveragePanelView = null
+
+    @coverageStatusView?.destroy()
     @coverageStatusView = null
+
+    @coverageFile = null
