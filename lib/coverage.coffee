@@ -16,20 +16,22 @@ module.exports =
     @coverageFile = path.resolve(atom.project.path, "coverage/coverage.json") if atom.project.path
     @coveragePanelView = new CoveragePanelView
 
+    if @coverageFile and atom.config.get("coverage.refreshOnFileChange") and fs.existsSync(@coverageFile)
+      @pathWatcher = fs.watch(@coverageFile, @update)
+
     atom.packages.once "activated", =>
       if atom.workspaceView.statusBar
         @coverageStatusView = new CoverageStatusView(@coveragePanelView)
         atom.workspaceView.statusBar.appendLeft @coverageStatusView
+        @update()
 
-    atom.workspaceView.command "coverage:toggle", => @coveragePanelView.toggle()
+    atom.workspaceView.command "coverage:toggle", => @coveragePanelView?.toggle()
     atom.workspaceView.command "coverage:refresh", => @update()
-
-    @pathWatcher = fs.watch(@coverageFile, @update) if atom.config.get "coverage.refreshOnFileChange"
 
     @update()
 
   update: ->
-    if @coverageFile && fs.existsSync(@coverageFile)
+    if @coverageFile and fs.existsSync(@coverageFile)
       fs.readFile @coverageFile, "utf8", ((error, data) ->
         return if error
 
@@ -39,10 +41,10 @@ module.exports =
         @updateStatusBar data.metrics
       ).bind(this)
     else
-      console.info "TODO: Coverage file not found"
+      @coverageStatusView?.notfound()
 
   updateView: (project, files) ->
-    @coveragePanelView.update project, files
+    @coveragePanelView?.update project, files
 
   updateStatusBar: (project) ->
     @coverageStatusView?.update Number(project.covered_percent.toFixed(2))
