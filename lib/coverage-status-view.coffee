@@ -9,8 +9,7 @@ class CoverageStatusView extends View
       @span outlet: 'coverageStatusText', class: 'percentage'
 
   initialize: (panelView) ->
-    this.on "click", =>
-      panelView.toggle()
+    this.on "click", -> panelView.toggle()
 
   notfound: ->
     @coverageStatus.removeClass("green orange red")
