@@ -7,6 +7,8 @@ CoverageStatusView = require './coverage-status-view'
 module.exports =
   coveragePanelView: null
   coverageStatusView: null
+  configDefaults:
+    refreshOnFileChange: true
 
   activate: (state) ->
     @coveragePanelView = new CoveragePanelView
