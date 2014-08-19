@@ -1,8 +1,9 @@
-# Test Coverage Package (WIP)
+# Test Coverage Package
 Adds an overview of your current test coverage to Atom.
 
 ![coverage](https://raw.githubusercontent.com/philipgiuliani/coverage/master/screenshots/coverage_example.png)
 
+[![david-dm](http://img.shields.io/david/philipgiuliani/coverage.svg?style=flat)](https://david-dm.org/philipgiuliani/coverage/)
 ## Installing
 Use the Atom package manager, which can be found in the Settings view or run `apm install coverage` from the command line.
 
