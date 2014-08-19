@@ -8,6 +8,7 @@ module.exports =
   coveragePanelView: null
   coverageStatusView: null
   coverageFile: null
+  pathWatcher: null
   configDefaults:
     refreshOnFileChange: true
 
@@ -23,10 +24,9 @@ module.exports =
     atom.workspaceView.command "coverage:toggle", => @coveragePanelView.toggle()
     atom.workspaceView.command "coverage:refresh", => @update()
 
-    @initializePathWatcher() if atom.config.get "coverage.refreshOnFileChange"
-    @update()
+    @pathWatcher = fs.watch(@coverageFile, @update) if atom.config.get "coverage.refreshOnFileChange"
 
-  initializePathWatcher: ->
+    @update()
 
   update: ->
     if @coverageFile && fs.existsSync(@coverageFile)
@@ -55,3 +55,5 @@ module.exports =
     @coverageStatusView = null
 
     @coverageFile = null
+
+    @pathWatcher?.close()
