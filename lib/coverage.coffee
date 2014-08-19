@@ -43,4 +43,8 @@ module.exports =
     @coverageStatusView?.update Number(project.covered_percent.toFixed(2))
 
   deactivate: ->
-    @coveragePanelView.destroy()
+    @coveragePanelView?.destroy()
+    @coverageStatusView?.destroy()
+
+    @coveragePanelView = null
+    @coverageStatusView = null

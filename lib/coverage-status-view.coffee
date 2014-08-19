@@ -4,8 +4,9 @@ path = require 'path'
 module.exports =
 class CoverageStatusView extends View
   @content: ->
-    @div class: 'inline-block', =>
-      @span outlet: 'coverageStatus', class: 'coverage-status icon icon-pulse'
+    @div class: 'coverage-status inline-block', =>
+      @span outlet: 'coverageStatus', class: 'icon icon-pulse'
+      @span outlet: 'coveragePercentage', class: 'percentage'
 
   initialize: (panelView) ->
     this.on "click", =>
@@ -14,6 +15,7 @@ class CoverageStatusView extends View
   update: (coverage) ->
     color = @coverageColor(coverage)
     @coverageStatus.removeClass("green orange red").addClass(color)
+    @coveragePercentage.text "#{coverage}%"
 
   coverageColor: (coverage) ->
     switch
