@@ -25,3 +25,6 @@ class CoverageStatusView extends View
       when coverage >= 90 then "green"
       when coverage >= 80 then "orange"
       else "red"
+
+  destroy: ->
+    @detach()
