@@ -14,7 +14,7 @@ module.exports =
   coverageFile: null
   pathWatcher: null
 
-  activate: (state) ->
+  activate: ->
     @coverageFile = path.resolve(atom.project.path, atom.config.get("coverage.coverageFilePath")) if atom.project.path
     @coveragePanelView = new CoveragePanelView
 
@@ -23,11 +23,11 @@ module.exports =
       @pathWatcher = fs.watch(@coverageFile, @update)
 
     # add the status bar and refresh the coverage after all packages are loaded
-    atom.packages.once "activated", =>
-      if atom.workspaceView.statusBar
-        @coverageStatusView = new CoverageStatusView(@coveragePanelView)
-        atom.workspaceView.statusBar.appendLeft @coverageStatusView
-        @update()
+    if atom.workspaceView.statusBar
+      @initializeStatusBarView()
+    else
+      atom.packages.once "activated", =>
+        @initializeStatusBarView() if atom.workspaceView.statusBar
 
     # commands
     atom.workspaceView.command "coverage:toggle", => @coveragePanelView.toggle()
@@ -36,16 +36,21 @@ module.exports =
     # update coverage
     @update()
 
+  initializeStatusBarView: ->
+    @coverageStatusView = new CoverageStatusView(@coveragePanelView)
+    atom.workspaceView.statusBar.appendLeft @coverageStatusView
+
+    @update()
+
   update: ->
     if @coverageFile and fs.existsSync(@coverageFile)
-      fs.readFile @coverageFile, "utf8", ((error, data) ->
+      fs.readFile @coverageFile, "utf8", (error, data) =>
         return if error
 
         data = JSON.parse(data)
 
         @updatePanelView data.metrics, data.files
         @updateStatusBar data.metrics
-      ).bind(this)
     else
       @coverageStatusView?.notfound()
 
