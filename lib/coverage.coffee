@@ -6,6 +6,7 @@ CoverageStatusView = require './coverage-status-view'
 
 module.exports =
   configDefaults:
+    coverageFilePath: "coverage/coverage.json"
     refreshOnFileChange: true
 
   coveragePanelView: null
@@ -14,7 +15,7 @@ module.exports =
   pathWatcher: null
 
   activate: (state) ->
-    @coverageFile = path.resolve(atom.project.path, "coverage/coverage.json") if atom.project.path
+    @coverageFile = path.resolve(atom.project.path, atom.config.get("coverage.coverageFilePath")) if atom.project.path
     @coveragePanelView = new CoveragePanelView
 
     # initialize the pathwatcher if its enabled in the options and the coverage file exists
