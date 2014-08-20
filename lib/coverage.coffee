@@ -9,6 +9,7 @@ module.exports =
     coverageFilePath: "coverage/coverage.json"
     refreshOnFileChange: true
 
+  refreshOnFileChangeSubscription: null
   coveragePanelView: null
   coverageStatusView: null
   coverageFile: null
@@ -23,7 +24,7 @@ module.exports =
       @pathWatcher = fs.watch @coverageFile, @update.bind(@)
 
     # listen for changes on the refreshOnFileChange setting, and initialize the pathwatcher if needed
-    atom.config.observe "coverage.refreshOnFileChange", (refreshOnFileChange) =>
+    @refreshOnFileChangeSubscription = atom.config.observe "coverage.refreshOnFileChange", (refreshOnFileChange) =>
       if refreshOnFileChange
         if @pathWatcher is null and @coverageFile and fs.existsSync(@coverageFile)
           @pathWatcher = fs.watch @coverageFile, @update.bind(@)
@@ -80,3 +81,5 @@ module.exports =
 
     @pathWatcher?.close()
     @pathWatcher = null
+
+    @refreshOnFileChangeSubscription?.off()
