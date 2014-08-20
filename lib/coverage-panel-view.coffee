@@ -1,5 +1,6 @@
 {$$, View} = require 'atom'
 path = require 'path'
+fs = require 'fs-plus'
 
 module.exports =
 class CoveragePanelView extends View
@@ -15,6 +16,7 @@ class CoveragePanelView extends View
       @div outlet: "coverageContent", class: "panel-body"
 
   initialize: ->
+    @on 'click', 'tr.row-file > td.col-title > span', (event) => @openFile(event)
 
   update: (project, files) ->
     self = this
@@ -35,7 +37,7 @@ class CoveragePanelView extends View
           fileName = path.basename(file.filename)
           filePath = atom.project.relativize(file.filename)
 
-          @tr =>
+          @tr class: "row-file", =>
             @td class: "col-title", =>
               @span class: "icon icon-file-text", "data-name": fileName, filePath
             @td class: "col-progress", =>
@@ -49,6 +51,12 @@ class CoveragePanelView extends View
       when coverage >= 90 then "green"
       when coverage >= 80 then "orange"
       else "red"
+
+  openFile: (event) ->
+    element = event.target
+    filePath = element.textContent
+
+    atom.workspaceView.open(filePath, true) if fs.existsSync atom.project.resolve(filePath)
 
   serialize: ->
 
