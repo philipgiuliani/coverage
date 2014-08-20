@@ -53,9 +53,7 @@ class CoveragePanelView extends View
       else "red"
 
   openFile: (event) ->
-    element = event.target
-    filePath = element.textContent
-
+    filePath = event.target.textContent
     atom.workspaceView.open(filePath, true) if fs.existsSync atom.project.resolve(filePath)
 
   serialize: ->

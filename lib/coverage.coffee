@@ -20,7 +20,16 @@ module.exports =
 
     # initialize the pathwatcher if its enabled in the options and the coverage file exists
     if @coverageFile and atom.config.get("coverage.refreshOnFileChange") and fs.existsSync(@coverageFile)
-      @pathWatcher = fs.watch @coverageFile, @update.bind(this)
+      @pathWatcher = fs.watch @coverageFile, @update.bind(@)
+
+    # listen for changes on the refreshOnFileChange setting, and initialize the pathwatcher if needed
+    atom.config.observe "coverage.refreshOnFileChange", (refreshOnFileChange) =>
+      if refreshOnFileChange
+        if @pathWatcher is null and @coverageFile and fs.existsSync(@coverageFile)
+          @pathWatcher = fs.watch @coverageFile, @update.bind(@)
+      else
+        @pathWatcher?.close()
+        @pathWatcher = null
 
     # add the status bar and refresh the coverage after all packages are loaded
     if atom.workspaceView.statusBar
@@ -70,3 +79,4 @@ module.exports =
     @coverageFile = null
 
     @pathWatcher?.close()
+    @pathWatcher = null
