@@ -52,16 +52,6 @@ class PanelView extends HTMLElement
       tableRow.initialize("file", file)
       @tableBody.appendChild(tableRow)
 
-    #     if project
-    #       @tr =>
-    #         @td class: "col-title", =>
-    #           @span class: "icon icon-file-directory", "Project"
-    #         @td class: "col-progress", =>
-    #           @progress class: self.coverageColor(project.covered_percent), max: 100, value: project.covered_percent
-    #         @td class: "col-percent", "#{Number(project.covered_percent.toFixed(2))}%"
-    #         @td class: "col-lines", "#{project.covered_lines} / #{project.total_lines}"
-    #         @td class: "col-strengh", Number(project.covered_strength.toFixed(2))
-
   serialize: ->
 
   destroy: ->
