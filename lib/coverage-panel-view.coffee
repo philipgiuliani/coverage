@@ -43,19 +43,6 @@ class CoveragePanelView extends View
     #         @td class: "col-percent", "#{Number(project.covered_percent.toFixed(2))}%"
     #         @td class: "col-lines", "#{project.covered_lines} / #{project.total_lines}"
     #         @td class: "col-strengh", Number(project.covered_strength.toFixed(2))
-    #
-    #     for file in files
-    #       fileName = path.basename(file.filename)
-    #       filePath = atom.project.relativize(file.filename)
-    #
-    #       @tr =>
-    #         @td class: "col-title", =>
-    #           @span class: "icon icon-file-text", "data-name": fileName, filePath
-    #         @td class: "col-progress", =>
-    #           @progress class: self.coverageColor(file.covered_percent), max: 100, value: file.covered_percent
-    #         @td class: "col-percent", "#{Number(file.covered_percent.toFixed(2))}%"
-    #         @td class: "col-lines", "#{file.covered_lines} / #{file.lines_of_code}"
-    #         @td class: "col-strengh", Number(file.covered_strength.toFixed(2))
 
   serialize: ->
 
