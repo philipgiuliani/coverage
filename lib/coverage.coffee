@@ -18,6 +18,7 @@ module.exports =
   activate: (state) ->
     @coverageFile = atom.project.resolve(atom.config.get("coverage.coverageFilePath")) if atom.project.path
     @panelView = new PanelView
+    @panelView.initialize()
 
     # initialize the pathwatcher if its enabled in the options and the coverage file exists
     if @coverageFile and atom.config.get("coverage.refreshOnFileChange") and fs.existsSync(@coverageFile)
