@@ -1,8 +1,8 @@
 fs = require 'fs-plus'
 path = require 'path'
 
-CoveragePanelView = require './coverage-panel-view'
-CoverageStatusView = require './coverage-status-view'
+PanelView = require './panel-view'
+StatusView = require './status-view'
 
 module.exports =
   configDefaults:
@@ -10,14 +10,15 @@ module.exports =
     refreshOnFileChange: true
 
   refreshOnFileChangeSubscription: null
-  coveragePanelView: null
-  coverageStatusView: null
+  panelView: null
+  statusView: null
   coverageFile: null
   pathWatcher: null
 
   activate: (state) ->
     @coverageFile = atom.project.resolve(atom.config.get("coverage.coverageFilePath")) if atom.project.path
-    @coveragePanelView = new CoveragePanelView
+    @panelView = new PanelView
+    @panelView.initialize()
 
     # initialize the pathwatcher if its enabled in the options and the coverage file exists
     if @coverageFile and atom.config.get("coverage.refreshOnFileChange") and fs.existsSync(@coverageFile)
@@ -40,15 +41,16 @@ module.exports =
         @initializeStatusBarView() if atom.workspaceView.statusBar
 
     # commands
-    atom.workspaceView.command "coverage:toggle", => @coveragePanelView.toggle()
+    atom.workspaceView.command "coverage:toggle", => @panelView.toggle()
     atom.workspaceView.command "coverage:refresh", => @update()
 
     # update coverage
     @update()
 
   initializeStatusBarView: ->
-    @coverageStatusView = new CoverageStatusView(@coveragePanelView)
-    atom.workspaceView.statusBar.appendLeft @coverageStatusView
+    @statusView = new StatusView
+    @statusView.initialize(@panelView)
+    atom.workspaceView.statusBar.appendLeft(@statusView)
 
     @update()
 
@@ -62,22 +64,22 @@ module.exports =
         @updatePanelView data.metrics, data.files
         @updateStatusBar data.metrics
     else
-      @coverageStatusView?.notfound()
+      @statusView?.notfound()
 
   updatePanelView: (project, files) ->
-    @coveragePanelView.update project, files
+    @panelView.update project, files
 
   updateStatusBar: (project) ->
-    @coverageStatusView?.update Number(project.covered_percent.toFixed(2))
+    @statusView?.update Number(project.covered_percent.toFixed(2))
 
   serialize: ->
 
   deactivate: ->
-    @coveragePanelView?.destroy()
-    @coveragePanelView = null
+    @panelView?.destroy()
+    @panelView = null
 
-    @coverageStatusView?.destroy()
-    @coverageStatusView = null
+    @statusView?.destroy()
+    @statusView = null
 
     @coverageFile = null
 
