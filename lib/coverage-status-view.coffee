@@ -2,7 +2,7 @@
 path = require 'path'
 
 module.exports =
-class CoverageStatusView extends View
+class CoverageStatusView extends HTMLElement
   @content: ->
     @div class: 'coverage-status inline-block', =>
       @span outlet: 'coverageStatusIcon', class: 'icon icon-pulse'
