@@ -22,10 +22,13 @@ class CoveragePanelView extends View
     self = this
 
     @table = document.createElement("table")
+    @tableBody = document.createElement("tbody")
+    @table.appendChild(@tableBody)
+
     for file in files
       tableRow = new CoverageTableRow
       tableRow.initialize(file)
-      @table.appendChild(tableRow)
+      @tableBody.appendChild(tableRow)
 
     @coverageContent.html @table
 
@@ -53,16 +56,6 @@ class CoveragePanelView extends View
     #         @td class: "col-percent", "#{Number(file.covered_percent.toFixed(2))}%"
     #         @td class: "col-lines", "#{file.covered_lines} / #{file.lines_of_code}"
     #         @td class: "col-strengh", Number(file.covered_strength.toFixed(2))
-
-  coverageColor: (coverage) ->
-    switch
-      when coverage >= 90 then "green"
-      when coverage >= 80 then "orange"
-      else "red"
-
-  openFile: (event) ->
-    filePath = event.target.textContent
-    atom.workspaceView.open(filePath, true) if fs.existsSync atom.project.resolve(filePath)
 
   serialize: ->
 
