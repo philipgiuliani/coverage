@@ -1,4 +1,3 @@
-{$$, View} = require 'atom'
 path = require 'path'
 
 module.exports =
