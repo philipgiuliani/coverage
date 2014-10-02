@@ -54,6 +54,6 @@ class TableRow extends HTMLElement
       else "red"
 
   openFile: (filePath) ->
-    atom.workspaceView.open(filePath, true)# if fs.existsSync atom.project.resolve(filePath)
+    atom.workspaceView.open(filePath, true)
 
 module.exports = document.registerElement('coverage-table-row', prototype: TableRow.prototype, extends: 'tr')
