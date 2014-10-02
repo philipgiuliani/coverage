@@ -17,8 +17,6 @@ class CoveragePanelView extends View
   initialize: ->
 
   update: (project, files) ->
-    self = this
-
     @table = document.createElement("table")
     @tableBody = document.createElement("tbody")
     @table.appendChild(@tableBody)
