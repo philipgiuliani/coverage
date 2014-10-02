@@ -1,15 +1,21 @@
+fs = require 'fs-plus'
 path = require 'path'
 
 class CoverageTableRow extends HTMLElement
   initialize: (file) ->
+    filePath = atom.project.relativize(file.filename)
+    fileName = path.basename(file.filename)
+
     # title column
     colTitle = @createColumn()
     colTitleIcon = document.createElement("span")
     colTitleIcon.classList.add("icon", "icon-file-text")
-    colTitleIcon.dataset.name = path.basename(file.filename)
-    colTitleIcon.textContent = atom.project.relativize(file.filename)
+    colTitleIcon.dataset.name = fileName
+    colTitleIcon.textContent = filePath
     colTitle.appendChild(colTitleIcon)
     @appendChild(colTitle)
+
+    colTitleIcon.addEventListener "click", @openFile.bind(this, filePath)
 
     # progress column
     colProgress = @createColumn()
@@ -33,14 +39,17 @@ class CoverageTableRow extends HTMLElement
     @appendChild(colStrengh)
 
   createColumn: (content = null) ->
-    column = document.createElement("td")
-    column.innerHTML = content
-    return column
+    col = document.createElement("td")
+    col.innerHTML = content
+    return col
 
   coverageColor: (coverage) ->
     switch
       when coverage >= 90 then "green"
       when coverage >= 80 then "orange"
       else "red"
+
+  openFile: (filePath) ->
+    atom.workspaceView.open(filePath, true) if fs.existsSync atom.project.resolve(filePath)
 
 module.exports = document.registerElement('coverage-table-row', prototype: CoverageTableRow.prototype, extends: 'tr')

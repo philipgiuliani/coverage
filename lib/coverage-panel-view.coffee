@@ -17,7 +17,6 @@ class CoveragePanelView extends View
       @div outlet: "coverageContent", class: "panel-body"
 
   initialize: ->
-    @on 'click', 'tr.row-file > td.col-title > span', (event) => @openFile(event)
 
   update: (project, files) ->
     self = this
