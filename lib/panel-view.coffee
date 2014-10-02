@@ -2,7 +2,7 @@
 CoverageTableRow = require './coverage-table-row'
 
 module.exports =
-class CoveragePanelView extends View
+class PanelView extends View
   @content: ->
     @div class: "coverage-panel tool-panel panel-bottom", =>
       @div class: "panel-heading clearfix", =>

@@ -1,7 +1,7 @@
 fs = require 'fs-plus'
 path = require 'path'
 
-CoveragePanelView = require './coverage-panel-view'
+PanelView = require './panel-view'
 StatusView = require './status-view'
 
 module.exports =
@@ -10,14 +10,14 @@ module.exports =
     refreshOnFileChange: true
 
   refreshOnFileChangeSubscription: null
-  coveragePanelView: null
+  panelView: null
   statusView: null
   coverageFile: null
   pathWatcher: null
 
   activate: (state) ->
     @coverageFile = atom.project.resolve(atom.config.get("coverage.coverageFilePath")) if atom.project.path
-    @coveragePanelView = new CoveragePanelView
+    @panelView = new PanelView
 
     # initialize the pathwatcher if its enabled in the options and the coverage file exists
     if @coverageFile and atom.config.get("coverage.refreshOnFileChange") and fs.existsSync(@coverageFile)
@@ -40,7 +40,7 @@ module.exports =
         @initializeStatusBarView() if atom.workspaceView.statusBar
 
     # commands
-    atom.workspaceView.command "coverage:toggle", => @coveragePanelView.toggle()
+    atom.workspaceView.command "coverage:toggle", => @panelView.toggle()
     atom.workspaceView.command "coverage:refresh", => @update()
 
     # update coverage
@@ -48,7 +48,7 @@ module.exports =
 
   initializeStatusBarView: ->
     @statusView = new StatusView
-    @statusView.initialize(@coveragePanelView)
+    @statusView.initialize(@panelView)
     atom.workspaceView.statusBar.appendLeft(@statusView)
 
     @update()
@@ -66,7 +66,7 @@ module.exports =
       @statusView?.notfound()
 
   updatePanelView: (project, files) ->
-    @coveragePanelView.update project, files
+    @panelView.update project, files
 
   updateStatusBar: (project) ->
     @statusView?.update Number(project.covered_percent.toFixed(2))
@@ -74,8 +74,8 @@ module.exports =
   serialize: ->
 
   deactivate: ->
-    @coveragePanelView?.destroy()
-    @coveragePanelView = null
+    @panelView?.destroy()
+    @panelView = null
 
     @statusView?.destroy()
     @statusView = null
