@@ -5,36 +5,49 @@
 @import "ui-variables";
 
 .coverage-panel {
-  // define the with of the columns
-  .col-title { width: 50% }
-  .col-progress { width: 20% }
-  .col-percent { width: 10% }
-  .col-lines { width: 10% }
-  .col-strengh { width: 10% }
-
-  // make the tool panel content scrollable
-  .panel-body {
-    padding: 0;
-    max-height: 160px;
-    overflow-y: scroll;
-  }
+  // remove padding around the table
+  .panel-body { padding: 0 }
 
   // style the table
   table {
     width: 100%;
+
+    thead, tbody {
+      width: 100%;
+      display: block;
+    }
+
+    tr {
+      width: 100%;
+
+      &::after {
+       content: " ";
+       display: block;
+       visibility: hidden;
+       clear: both;
+      }
+    }
+
+    th, td {
+      width: 10%;
+
+      &:nth-child(1) { width: 50% }
+      &:nth-child(2) { width: 20% }
+    }
+
     thead {
       padding: 0;
 
-      tr th {
+      th {
         padding: 10px;
-        width: 10%;
-
-        &:nth-child(1) { width: 50% }
-        &:nth-child(2) { width: 20% }
       }
     }
 
     tbody {
+      max-height: 130px;
+      overflow-x: hidden;
+      overflow-y: auto;
+
       tr {
         background: @base-background-color;
         border-bottom: 1px solid @tool-panel-background-color;
