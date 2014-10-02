@@ -1,6 +1,3 @@
-fs = require 'fs-plus'
-path = require 'path'
-
 class TableRow extends HTMLElement
   initialize: (type, file) ->
     columns = []
@@ -13,10 +10,9 @@ class TableRow extends HTMLElement
       colTitleIcon.textContent = "Project"
     else
       filePath = atom.project.relativize(file.filename)
-      fileName = path.basename(file.filename)
 
       colTitleIcon.classList.add("icon", "icon-file-text")
-      colTitleIcon.dataset.name = fileName
+      colTitleIcon.dataset.name = filePath
       colTitleIcon.textContent = filePath
       colTitleIcon.addEventListener "click", @openFile.bind(this, filePath)
 
@@ -58,6 +54,6 @@ class TableRow extends HTMLElement
       else "red"
 
   openFile: (filePath) ->
-    atom.workspaceView.open(filePath, true) if fs.existsSync atom.project.resolve(filePath)
+    atom.workspaceView.open(filePath, true)# if fs.existsSync atom.project.resolve(filePath)
 
 module.exports = document.registerElement('coverage-table-row', prototype: TableRow.prototype, extends: 'tr')
