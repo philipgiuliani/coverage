@@ -1,7 +1,7 @@
 fs = require 'fs-plus'
 path = require 'path'
 
-class CoverageTableRow extends HTMLElement
+class TableRow extends HTMLElement
   initialize: (file) ->
     filePath = atom.project.relativize(file.filename)
     fileName = path.basename(file.filename)
@@ -52,4 +52,4 @@ class CoverageTableRow extends HTMLElement
   openFile: (filePath) ->
     atom.workspaceView.open(filePath, true) if fs.existsSync atom.project.resolve(filePath)
 
-module.exports = document.registerElement('coverage-table-row', prototype: CoverageTableRow.prototype, extends: 'tr')
+module.exports = document.registerElement('coverage-table-row', prototype: TableRow.prototype, extends: 'tr')

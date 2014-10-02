@@ -1,4 +1,4 @@
-CoverageTableRow = require './coverage-table-row'
+TableRow = require './table-row'
 
 class PanelView extends HTMLElement
   initialize: ->
@@ -51,14 +51,10 @@ class PanelView extends HTMLElement
 
     # add all files
     for file in files
-      tableRow = new CoverageTableRow
+      tableRow = new TableRow
       tableRow.initialize(file)
       @tableBody.appendChild(tableRow)
 
-    #@coverageContent.html @table
-
-    # @coverageContent.html $$ ->
-    #   @table =>
     #     if project
     #       @tr =>
     #         @td class: "col-title", =>
