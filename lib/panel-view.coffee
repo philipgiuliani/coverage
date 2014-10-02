@@ -53,11 +53,11 @@ class PanelView extends HTMLElement
   serialize: ->
 
   destroy: ->
-    this.parentNode.removeChild(this)
+    @remove() if @parentNode
 
   toggle: ->
-    if this.parentNode
-      this.parentNode.removeChild(this)
+    if @parentNode
+      @remove()
     else
       atom.workspaceView.prependToBottom(this)
 
