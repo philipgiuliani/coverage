@@ -2,19 +2,24 @@ fs = require 'fs-plus'
 path = require 'path'
 
 class TableRow extends HTMLElement
-  initialize: (file) ->
-    filePath = atom.project.relativize(file.filename)
-    fileName = path.basename(file.filename)
-
+  initialize: (type, file) ->
     columns = []
 
     # title column
     colTitle = @createColumn()
     colTitleIcon = document.createElement("span")
-    colTitleIcon.classList.add("icon", "icon-file-text")
-    colTitleIcon.dataset.name = fileName
-    colTitleIcon.textContent = filePath
-    colTitleIcon.addEventListener "click", @openFile.bind(this, filePath)
+    if type is "directory"
+      colTitleIcon.classList.add("icon", "icon-file-directory")
+      colTitleIcon.textContent = "Project"
+    else
+      filePath = atom.project.relativize(file.filename)
+      fileName = path.basename(file.filename)
+
+      colTitleIcon.classList.add("icon", "icon-file-text")
+      colTitleIcon.dataset.name = fileName
+      colTitleIcon.textContent = filePath
+      colTitleIcon.addEventListener "click", @openFile.bind(this, filePath)
+
     colTitle.appendChild(colTitleIcon)
     columns.push colTitle
 
@@ -31,7 +36,10 @@ class TableRow extends HTMLElement
     columns.push @createColumn("#{Number(file.covered_percent.toFixed(2))}%")
 
     # lines column
-    columns.push @createColumn("#{file.covered_lines} / #{file.lines_of_code}")
+    if type is "directory"
+      columns.push @createColumn("#{file.covered_lines} / #{file.total_lines}")
+    else
+      columns.push @createColumn("#{file.covered_lines} / #{file.lines_of_code}")
 
     # strengh column
     columns.push @createColumn(Number(file.covered_strength.toFixed(2)))

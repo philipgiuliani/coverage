@@ -41,10 +41,15 @@ class PanelView extends HTMLElement
   update: (project, files) ->
     @tableBody.innerHTML = ""
 
+    if project
+      projectRow = new TableRow
+      projectRow.initialize("directory", project)
+      @tableBody.appendChild(projectRow)
+
     # add all files
     for file in files
       tableRow = new TableRow
-      tableRow.initialize(file)
+      tableRow.initialize("file", file)
       @tableBody.appendChild(tableRow)
 
     #     if project
