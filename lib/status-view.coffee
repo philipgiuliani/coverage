@@ -1,6 +1,6 @@
 path = require 'path'
 
-class CoverageStatusView extends HTMLElement
+class StatusView extends HTMLElement
   initialize: (panelView) ->
     @classList.add("coverage-status", "inline-block")
 
@@ -33,4 +33,4 @@ class CoverageStatusView extends HTMLElement
 
   destroy: ->
 
-module.exports = document.registerElement('coverage-status-view', prototype: CoverageStatusView.prototype, extends: 'div')
+module.exports = document.registerElement('coverage-status-view', prototype: StatusView.prototype, extends: 'div')

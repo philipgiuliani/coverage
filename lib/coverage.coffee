@@ -2,7 +2,7 @@ fs = require 'fs-plus'
 path = require 'path'
 
 CoveragePanelView = require './coverage-panel-view'
-CoverageStatusView = require './coverage-status-view'
+StatusView = require './status-view'
 
 module.exports =
   configDefaults:
@@ -11,7 +11,7 @@ module.exports =
 
   refreshOnFileChangeSubscription: null
   coveragePanelView: null
-  coverageStatusView: null
+  statusView: null
   coverageFile: null
   pathWatcher: null
 
@@ -47,9 +47,9 @@ module.exports =
     @update()
 
   initializeStatusBarView: ->
-    @coverageStatusView = new CoverageStatusView
-    @coverageStatusView.initialize(@coveragePanelView)
-    atom.workspaceView.statusBar.appendLeft(@coverageStatusView)
+    @statusView = new StatusView
+    @statusView.initialize(@coveragePanelView)
+    atom.workspaceView.statusBar.appendLeft(@statusView)
 
     @update()
 
@@ -63,13 +63,13 @@ module.exports =
         @updatePanelView data.metrics, data.files
         @updateStatusBar data.metrics
     else
-      @coverageStatusView?.notfound()
+      @statusView?.notfound()
 
   updatePanelView: (project, files) ->
     @coveragePanelView.update project, files
 
   updateStatusBar: (project) ->
-    @coverageStatusView?.update Number(project.covered_percent.toFixed(2))
+    @statusView?.update Number(project.covered_percent.toFixed(2))
 
   serialize: ->
 
@@ -77,8 +77,8 @@ module.exports =
     @coveragePanelView?.destroy()
     @coveragePanelView = null
 
-    @coverageStatusView?.destroy()
-    @coverageStatusView = null
+    @statusView?.destroy()
+    @statusView = null
 
     @coverageFile = null
 
