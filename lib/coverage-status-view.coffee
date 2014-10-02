@@ -1,24 +1,29 @@
 path = require 'path'
 
-module.exports =
 class CoverageStatusView extends HTMLElement
-  @content: ->
-    @div class: 'coverage-status inline-block', =>
-      @span outlet: 'coverageStatusIcon', class: 'icon icon-pulse'
-      @span outlet: 'coverageStatusText', class: 'percentage'
-
   initialize: (panelView) ->
-    this.on "click", -> panelView.toggle()
-    this.setTooltip title: "Test Coverage"
+    @classList.add("coverage-status", "inline-block")
+
+    @statusIcon = document.createElement("span")
+    @statusIcon.classList.add("icon", "icon-pulse")
+    @appendChild(@statusIcon)
+
+    @statusText = document.createElement("span")
+    @statusText.classList.add("percentage")
+    @appendChild(@statusText)
+
+    @addEventListener "click", -> panelView.toggle()
 
   notfound: ->
-    @coverageStatusIcon.removeClass("green orange red")
-    @coverageStatusText.text "not found"
+    @statusIcon.classList.remove("green", "orange", "red")
+    @statusText.textContent = "not found"
 
   update: (coverage) ->
     color = @coverageColor(coverage)
-    @coverageStatusIcon.removeClass("green orange red").addClass(color)
-    @coverageStatusText.text "#{coverage}%"
+
+    @statusIcon.classList.remove("green", "orange", "red")
+    @statusIcon.classList.add(color)
+    @statusText.textContent = "#{coverage}%"
 
   coverageColor: (coverage) ->
     switch
@@ -27,4 +32,5 @@ class CoverageStatusView extends HTMLElement
       else "red"
 
   destroy: ->
-    @detach()
+
+module.exports = document.registerElement('coverage-status-view', prototype: CoverageStatusView.prototype, extends: 'div')

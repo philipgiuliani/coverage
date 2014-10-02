@@ -47,8 +47,9 @@ module.exports =
     @update()
 
   initializeStatusBarView: ->
-    @coverageStatusView = new CoverageStatusView(@coveragePanelView)
-    atom.workspaceView.statusBar.appendLeft @coverageStatusView
+    @coverageStatusView = new CoverageStatusView
+    @coverageStatusView.initialize(@coveragePanelView)
+    atom.workspaceView.statusBar.appendLeft(@coverageStatusView)
 
     @update()
 
