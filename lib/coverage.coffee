@@ -15,7 +15,7 @@ module.exports =
   coverageFile: null
   pathWatcher: null
 
-  activate: ->
+  activate: (state) ->
     @coverageFile = atom.project.resolve(atom.config.get("coverage.coverageFilePath")) if atom.project.path
     @coveragePanelView = new CoveragePanelView
 
@@ -65,10 +65,12 @@ module.exports =
       @coverageStatusView?.notfound()
 
   updatePanelView: (project, files) ->
-    @coveragePanelView?.update project, files
+    @coveragePanelView.update project, files
 
   updateStatusBar: (project) ->
     @coverageStatusView?.update Number(project.covered_percent.toFixed(2))
+
+  serialize: ->
 
   deactivate: ->
     @coveragePanelView?.destroy()
