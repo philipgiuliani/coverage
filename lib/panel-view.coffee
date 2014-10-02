@@ -21,21 +21,13 @@ class PanelView extends HTMLElement
     rowHead = document.createElement("tr")
     tableHead.appendChild(rowHead)
 
-    colTitle = @createColumn("Test Coverage")
-    rowHead.appendChild(colTitle)
-
-    colProgress = @createColumn("Coverage")
-    rowHead.appendChild(colProgress)
-
-    colPercentage = @createColumn("Percent")
-    rowHead.appendChild(colPercentage)
-
-    colLines = @createColumn("Lines")
-    rowHead.appendChild(colLines)
-
-    colStrengh = @createColumn("Strength")
-    rowHead.appendChild(colStrengh)
-
+    tableHeadColumns = []
+    tableHeadColumns.push @createColumn("Test Coverage")
+    tableHeadColumns.push @createColumn("Coverage")
+    tableHeadColumns.push @createColumn("Percent")
+    tableHeadColumns.push @createColumn("Lines")
+    tableHeadColumns.push @createColumn("Strength")
+    rowHead.appendChild(column) for column in tableHeadColumns
 
     # table body
     @tableBody = document.createElement("tbody")
