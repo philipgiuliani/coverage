@@ -3,6 +3,7 @@ path = require 'path'
 
 CoveragePanelView = require './coverage-panel-view'
 StatusView = require './status-view'
+CoverageTableRow = require './coverage-table-row'
 
 module.exports =
   configDefaults:
