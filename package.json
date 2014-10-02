@@ -1,7 +1,7 @@
 {
   "name": "coverage",
   "main": "./lib/coverage",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Shows the current test coverage of your project",
   "activationEvents": [],
   "repository": "https://github.com/philipgiuliani/coverage",
