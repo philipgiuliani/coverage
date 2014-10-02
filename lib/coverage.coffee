@@ -5,9 +5,13 @@ PanelView = require './panel-view'
 StatusView = require './status-view'
 
 module.exports =
-  configDefaults:
-    coverageFilePath: "coverage/coverage.json"
-    refreshOnFileChange: true
+  config:
+    coverageFilePath:
+      type: "string"
+      default: "coverage/coverage.json"
+    refreshOnFileChange:
+      type: "boolean"
+      default: true
 
   refreshOnFileChangeSubscription: null
   panelView: null
