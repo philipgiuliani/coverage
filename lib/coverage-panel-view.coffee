@@ -1,6 +1,4 @@
-{$$, View} = require 'atom'
-path = require 'path'
-fs = require 'fs-plus'
+{View} = require 'atom'
 CoverageTableRow = require './coverage-table-row'
 
 module.exports =
