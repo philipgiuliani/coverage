@@ -1,8 +1,6 @@
-{View} = require 'atom'
 CoverageTableRow = require './coverage-table-row'
 
-module.exports =
-class PanelView extends View
+class PanelView extends HTMLElement
   @content: ->
     @div class: "coverage-panel tool-panel panel-bottom", =>
       @div class: "panel-heading clearfix", =>
@@ -50,3 +48,5 @@ class PanelView extends View
       @detach()
     else
       atom.workspaceView.prependToBottom(this)
+
+module.exports = document.registerElement('coverage-panel-view', prototype: PanelView.prototype, extends: 'div')
