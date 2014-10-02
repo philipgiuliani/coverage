@@ -37,7 +37,7 @@ class CoveragePanelView extends View
           fileName = path.basename(file.filename)
           filePath = atom.project.relativize(file.filename)
 
-          @tr class: "row-file", =>
+          @tr =>
             @td class: "col-title", =>
               @span class: "icon icon-file-text", "data-name": fileName, filePath
             @td class: "col-progress", =>
