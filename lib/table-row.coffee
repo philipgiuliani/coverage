@@ -6,16 +6,17 @@ class TableRow extends HTMLElement
     filePath = atom.project.relativize(file.filename)
     fileName = path.basename(file.filename)
 
+    columns = []
+
     # title column
     colTitle = @createColumn()
     colTitleIcon = document.createElement("span")
     colTitleIcon.classList.add("icon", "icon-file-text")
     colTitleIcon.dataset.name = fileName
     colTitleIcon.textContent = filePath
-    colTitle.appendChild(colTitleIcon)
-    @appendChild(colTitle)
-
     colTitleIcon.addEventListener "click", @openFile.bind(this, filePath)
+    colTitle.appendChild(colTitleIcon)
+    columns.push colTitle
 
     # progress column
     colProgress = @createColumn()
@@ -24,19 +25,18 @@ class TableRow extends HTMLElement
     progressBar.value = file.covered_percent
     progressBar.classList.add @coverageColor(file.covered_percent)
     colProgress.appendChild(progressBar)
-    @appendChild(colProgress)
+    columns.push colProgress
 
     # percentage column
-    colPercentage = @createColumn("#{Number(file.covered_percent.toFixed(2))}%")
-    @appendChild(colPercentage)
+    columns.push @createColumn("#{Number(file.covered_percent.toFixed(2))}%")
 
     # lines column
-    colLines = @createColumn("#{file.covered_lines} / #{file.lines_of_code}")
-    @appendChild(colLines)
+    columns.push @createColumn("#{file.covered_lines} / #{file.lines_of_code}")
 
     # strengh column
-    colStrengh = @createColumn(Number(file.covered_strength.toFixed(2)))
-    @appendChild(colStrengh)
+    columns.push @createColumn(Number(file.covered_strength.toFixed(2)))
+
+    @appendChild(column) for column in columns
 
   createColumn: (content = null) ->
     col = document.createElement("td")

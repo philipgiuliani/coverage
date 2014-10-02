@@ -21,13 +21,13 @@ class PanelView extends HTMLElement
     rowHead = document.createElement("tr")
     tableHead.appendChild(rowHead)
 
-    tableHeadColumns = []
-    tableHeadColumns.push @createColumn("Test Coverage")
-    tableHeadColumns.push @createColumn("Coverage")
-    tableHeadColumns.push @createColumn("Percent")
-    tableHeadColumns.push @createColumn("Lines")
-    tableHeadColumns.push @createColumn("Strength")
-    rowHead.appendChild(column) for column in tableHeadColumns
+    headerColumns = []
+    headerColumns.push @createColumn("Test Coverage")
+    headerColumns.push @createColumn("Coverage")
+    headerColumns.push @createColumn("Percent")
+    headerColumns.push @createColumn("Lines")
+    headerColumns.push @createColumn("Strength")
+    rowHead.appendChild(column) for column in headerColumns
 
     # table body
     @tableBody = document.createElement("tbody")
@@ -60,12 +60,12 @@ class PanelView extends HTMLElement
   serialize: ->
 
   destroy: ->
-    #@detach()
+    this.parentNode.removeChild(this)
 
   toggle: ->
-    #if @hasParent()
-      #@detach()
-    #else
+    if this.parentNode
+      this.parentNode.removeChild(this)
+    else
       atom.workspaceView.prependToBottom(this)
 
 module.exports = document.registerElement('coverage-panel-view', prototype: PanelView.prototype, extends: 'div')
