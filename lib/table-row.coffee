@@ -21,6 +21,7 @@ class TableRow extends HTMLElement
 
     # progress column
     colProgress = @createColumn()
+    colProgress.dataset.sort = file.covered_percent
     progressBar = document.createElement("progress")
     progressBar.max = 100
     progressBar.value = file.covered_percent

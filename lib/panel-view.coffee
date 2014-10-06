@@ -1,4 +1,5 @@
 TableRow = require './table-row'
+Tablesort = require 'tablesort'
 
 class PanelView extends HTMLElement
   initialize: ->
@@ -31,6 +32,8 @@ class PanelView extends HTMLElement
     @tableBody = document.createElement("tbody")
     table.appendChild(@tableBody)
 
+    new Tablesort(table)
+
   createColumn: (content = null) ->
     col = document.createElement("th")
     col.innerHTML = content
@@ -42,6 +45,7 @@ class PanelView extends HTMLElement
     if project
       projectRow = new TableRow
       projectRow.initialize("directory", project)
+      projectRow.classList.add("no-sort")
       @tableBody.appendChild(projectRow)
 
     # add all files
