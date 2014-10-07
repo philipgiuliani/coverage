@@ -10,7 +10,7 @@
     "atom": ">0.50.0"
   },
   "dependencies": {
-    "fs-plus": "2.3.0",
+    "fs-plus": "2.3.1",
     "tablesort": "2.0.0"
   }
 }
