@@ -1,4 +1,5 @@
 TableRow = require './table-row'
+Tablesort = require 'tablesort'
 
 class PanelView extends HTMLElement
   initialize: ->
@@ -24,16 +25,20 @@ class PanelView extends HTMLElement
     rowHead.appendChild @createColumn("Test Coverage")
     rowHead.appendChild @createColumn("Coverage")
     rowHead.appendChild @createColumn("Percent")
-    rowHead.appendChild @createColumn("Lines")
+    rowHead.appendChild @createColumn("Lines", { sort: false })
     rowHead.appendChild @createColumn("Strength")
 
     # table body
     @tableBody = document.createElement("tbody")
     table.appendChild(@tableBody)
 
-  createColumn: (content = null) ->
+    new Tablesort(table)
+
+  createColumn: (content, data={}) ->
     col = document.createElement("th")
     col.innerHTML = content
+    console.log data.sort
+    col.classList.add("no-sort") if data.hasOwnProperty("sort") && data.sort == false
     return col
 
   update: (project, files) ->
@@ -42,6 +47,7 @@ class PanelView extends HTMLElement
     if project
       projectRow = new TableRow
       projectRow.initialize("directory", project)
+      projectRow.classList.add("no-sort")
       @tableBody.appendChild(projectRow)
 
     # add all files
