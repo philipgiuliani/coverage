@@ -33,10 +33,8 @@ class TableRow extends HTMLElement
     columns.push @createColumn("#{Number(file.covered_percent.toFixed(2))}%")
 
     # lines column
-    if type is "directory"
-      columns.push @createColumn("#{file.covered_lines} / #{file.total_lines}")
-    else
-      columns.push @createColumn("#{file.covered_lines} / #{file.lines_of_code}")
+    totalLines = if type is "directory" then file.total_lines else file.lines_of_code
+    columns.push @createColumn("#{file.covered_lines} / #{totalLines}")
 
     # strengh column
     columns.push @createColumn(Number(file.covered_strength.toFixed(2)))

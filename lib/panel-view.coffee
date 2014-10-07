@@ -25,7 +25,7 @@ class PanelView extends HTMLElement
     rowHead.appendChild @createColumn("Test Coverage")
     rowHead.appendChild @createColumn("Coverage")
     rowHead.appendChild @createColumn("Percent")
-    rowHead.appendChild @createColumn("Lines")
+    rowHead.appendChild @createColumn("Lines", { sort: false })
     rowHead.appendChild @createColumn("Strength")
 
     # table body
@@ -34,9 +34,11 @@ class PanelView extends HTMLElement
 
     new Tablesort(table)
 
-  createColumn: (content = null) ->
+  createColumn: (content, data={}) ->
     col = document.createElement("th")
     col.innerHTML = content
+    console.log data.sort
+    col.classList.add("no-sort") if data.hasOwnProperty("sort") && data.sort == false
     return col
 
   update: (project, files) ->
