@@ -34,9 +34,9 @@ class PanelView extends HTMLElement
 
     @tablesort = new Tablesort(table)
 
-  createColumn: (content, data={}) ->
+  createColumn: (title, data={}) ->
     col = document.createElement("th")
-    col.innerHTML = content
+    col.innerHTML = title
     col.classList.add("no-sort") if data.hasOwnProperty("sort") && data.sort == false
     return col
 
@@ -56,8 +56,6 @@ class PanelView extends HTMLElement
       @tableBody.appendChild(tableRow)
 
     @tablesort.refresh()
-
-  serialize: ->
 
   destroy: ->
     @remove() if @parentNode
