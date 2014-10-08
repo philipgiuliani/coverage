@@ -37,7 +37,6 @@ class PanelView extends HTMLElement
   createColumn: (content, data={}) ->
     col = document.createElement("th")
     col.innerHTML = content
-    console.log data.sort
     col.classList.add("no-sort") if data.hasOwnProperty("sort") && data.sort == false
     return col
 
