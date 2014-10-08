@@ -32,7 +32,7 @@ class PanelView extends HTMLElement
     @tableBody = document.createElement("tbody")
     table.appendChild(@tableBody)
 
-    new Tablesort(table)
+    @tablesort = new Tablesort(table)
 
   createColumn: (content, data={}) ->
     col = document.createElement("th")
@@ -54,6 +54,8 @@ class PanelView extends HTMLElement
       tableRow = new TableRow
       tableRow.initialize("file", file)
       @tableBody.appendChild(tableRow)
+
+    @tablesort.refresh()
 
   serialize: ->
 
