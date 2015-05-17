@@ -20,7 +20,7 @@ module.exports =
   pathWatcher: null
 
   activate: (state) ->
-    @coverageFile = atom.project.resolve(atom.config.get("coverage.coverageFilePath")) if atom.project.path
+    @coverageFile = atom.project.getDirectories()[0].resolve(atom.config.get("coverage.coverageFilePath")) if atom.project.getPaths()[0]
     @panelView = new PanelView
     @panelView.initialize()
 
@@ -38,15 +38,15 @@ module.exports =
         @pathWatcher = null
 
     # add the status bar and refresh the coverage after all packages are loaded
-    if atom.workspaceView.statusBar
+    if atom.views.getView(atom.workspace).querySelector('status-bar')
       @initializeStatusBarView()
     else
-      atom.packages.once "activated", =>
-        @initializeStatusBarView() if atom.workspaceView.statusBar
+      atom.packages.onDidActivateInitialPackages =>
+        @initializeStatusBarView() if atom.views.getView(atom.workspace).querySelector('status-bar')
 
     # commands
-    atom.workspaceView.command "coverage:toggle", => @panelView.toggle()
-    atom.workspaceView.command "coverage:refresh", => @update()
+    atom.commands.add 'atom-workspace', "coverage:toggle": => @panelView.toggle()
+    atom.commands.add 'atom-workspace', "coverage:refresh": => @update()
 
     # update coverage
     @update()
@@ -54,7 +54,7 @@ module.exports =
   initializeStatusBarView: ->
     @statusView = new StatusView
     @statusView.initialize(@panelView)
-    atom.workspaceView.statusBar.appendLeft(@statusView)
+    atom.views.getView(atom.workspace).querySelector('status-bar').appendLeft(@statusView)
 
     @update()
 
