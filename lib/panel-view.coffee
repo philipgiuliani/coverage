@@ -64,6 +64,6 @@ class PanelView extends HTMLElement
     if @parentNode
       @remove()
     else
-      atom.workspaceView.prependToBottom(this)
+      atom.workspace.addBottomPanel(item: this)
 
 module.exports = document.registerElement('coverage-panel-view', prototype: PanelView.prototype, extends: 'div')
