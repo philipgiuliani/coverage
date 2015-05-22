@@ -1,7 +1,7 @@
 {
   "name": "coverage",
   "main": "./lib/coverage",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Shows the current test coverage of your project",
   "activationCommands": [],
   "repository": {
