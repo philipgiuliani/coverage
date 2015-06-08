@@ -90,4 +90,4 @@ module.exports =
     @pathWatcher?.close()
     @pathWatcher = null
 
-    @refreshOnFileChangeSubscription?.off()
+    @refreshOnFileChangeSubscription?.dispose()
