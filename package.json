@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "fs-plus": "2.3.1",
-    "tablesort": "2.0.0"
+    "tablesort": "2.0.0",
+    "lcov-parse": "0.0.8"
   }
 }
